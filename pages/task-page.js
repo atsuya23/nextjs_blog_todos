@@ -1,10 +1,31 @@
-import { ChevronDoubleLeftIcon } from "@heroicons/react/solid";
-import Layout from "../components/Layout";
+import useSWR from "swr";
 import Link from "next/link";
 
-export default function TaskPage() {
+import Layout from "../components/Layout";
+import { getAllTasksData } from "../lib/tasks";
+import Task from "../components/Task";
+import { useEffect } from "react";
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
+const apiUrl = `${process.env.NEXT_PUBLIC_RESTAPT_URL}api/list-task`;
+
+export default function TaskPage({ staticfilteredTasks }) {
+  const { data: tasks, mutate } = useSWR(spiUrl, fetcher, {
+    fallbackData: staticfilteredTasks,
+  });
+  const filterdTasks = tasks?.sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  );
+  useEffect(() => {
+    mutate();
+  }, []);
+
   return (
     <Layout title="Task page">
+      <ul>
+        {staticfilteredTasks &&
+          filterdTasks.map((task) => <Task key={task.id} task={task} />)}
+      </ul>
       <Link href="/main-page">
         <div className="flex cursor-pointer mt-12">
           <svg
@@ -26,4 +47,13 @@ export default function TaskPage() {
       </Link>
     </Layout>
   );
+}
+
+export async function getStaticProps() {
+  const staticfilteredTasks = await getAllTasksData();
+
+  return {
+    props: { staticfilteredTasks },
+    revalidate: 3,
+  };
 }
