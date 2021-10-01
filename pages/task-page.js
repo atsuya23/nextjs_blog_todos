@@ -10,7 +10,7 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 const apiUrl = `${process.env.NEXT_PUBLIC_RESTAPT_URL}api/list-task`;
 
 export default function TaskPage({ staticfilteredTasks }) {
-  const { data: tasks, mutate } = useSWR(spiUrl, fetcher, {
+  const { data: tasks, mutate } = useSWR(apiUrl, fetcher, {
     fallbackData: staticfilteredTasks,
   });
   const filterdTasks = tasks?.sort(
