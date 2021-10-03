@@ -4,11 +4,11 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 
 import Layout from "../../components/Layout";
-import { getAllTaskIds, getAllTasksData, getTaskData } from "../../lib/tasks";
+import { getAllTaskIds, getTaskData } from "../../lib/tasks";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-export default function Post({ staticTask, id }) {
+export default function Task({ staticTask, id }) {
   const router = useRouter();
   const { data: task, mutate } = useSWR(
     `${process.env.NEXT_PUBLIC_RESTAPI_URL}api/detail-task/${id}`,
@@ -29,11 +29,11 @@ export default function Post({ staticTask, id }) {
       </span>
       <p className="mb-4 text-xl font-bold">{task.title}</p>
       <p className="mb-12">{task.create_at}</p>
-      <Link href="/task-page">
+      <Link href="/task-page" passHref>
         <div className="flex cursor-pointer mt-8">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 mr-3"
+            className="h-6 w-6 mr-3"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

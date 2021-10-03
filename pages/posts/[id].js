@@ -19,11 +19,11 @@ export default function Post({ post }) {
       <p className="mb-4 text-xl font-bold">{post.title}</p>
       <p className="mb-12">{post.created_at}</p>
       <p className="px-10">{post.content}</p>
-      <Link href="/blog^page">
+      <Link href="/blog-page">
         <div className="flex cursor-pointer mt-12">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 mr-3"
+            className="h-6 w-6 mr-3"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
